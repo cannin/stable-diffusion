@@ -2,7 +2,7 @@
 
 **NOTE: NOT WORKING** 
 
-Modifications in this repo are an attempt to make Stable Diffusion work on Apple Silicon M1. Part of what is necessary is to use the MPS backend in Torch (https://pytorch.org/docs/stable/notes/mps.html). Changes for this were made in the code, but the following issue arises: 
+Modifications in this repo are an attempt to make Stable Diffusion work on Apple Silicon M1. Part of what is necessary is to use the Metal Performance Shaders (MPS) backend in Torch (https://pytorch.org/docs/stable/notes/mps.html). Changes for this were made in the code, but the following issue arises: 
 
 ```
 Traceback (most recent call last):
