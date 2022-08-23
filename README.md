@@ -1,8 +1,35 @@
-# NEW UPDATE
+# Stable Diffusion for Apple Silicon M1 
+
+**NOTE: NOT WORKING** 
+
+Modifications in this repo are an attempt to make Stable Diffusion work on Apple Silicon M1. Part of what is necessary is to use the MPS backend in Torch (https://pytorch.org/docs/stable/notes/mps.html). Changes for this were made in the code, but the following issue arises: 
+
+```
+Traceback (most recent call last):
+  File "scripts/txt2img.py", line 283, in <module>
+    main()
+  File "scripts/txt2img.py", line 242, in main
+    samples_ddim, _ = sampler.sample(S=opt.ddim_steps,
+  File "/mambaforge/envs/ldm/lib/python3.8/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+    return func(*args, **kwargs)
+  File "/mambaforge/envs/ldm/lib/python3.8/site-packages/ldm/models/diffusion/ddim.py", line 90, in sample
+    self.make_schedule(ddim_num_steps=S, ddim_eta=eta, verbose=verbose)
+  File "/mambaforge/envs/ldm/lib/python3.8/site-packages/ldm/models/diffusion/ddim.py", line 47, in make_schedule
+    self.register_buffer('ddim_sigmas', ddim_sigmas)
+  File "/mambaforge/envs/ldm/lib/python3.8/site-packages/ldm/models/diffusion/ddim.py", line 22, in register_buffer
+    attr = attr.to(torch.device("mps"))
+TypeError: Cannot convert a MPS Tensor to float64 dtype as the MPS framework doesn't support float64. Please use float32 instead.
+``` 
+
+Changes here 
+
+https://github.com/cannin/stable-diffusion/blob/c68e4f907e4e4a058e0eb43e2aafcc8e4b9a4da1/ldm/models/diffusion/ddim.py#L22
+
+the to the to() (https://pytorch.org/docs/stable/generated/torch.Tensor.to.html) function can include precision values, but this triggers other problems.
+
+# OLD UPDATE (from basujindal/stable-diffusion)
 
 The code can now generate _512x512 images in 40 second per image while using less than 5Gb VRAM. And with the entire 6Gb VRAM, it can generate upto 708x512 images._
-
-# OLD UPDATE
 
 The code can now generate images in batches which reduces the inference time for a single 512x512 image on a RTX 2060 from 75 to 40 seconds!
 
