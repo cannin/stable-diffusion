@@ -1,0 +1,4 @@
+build
+outputs
+*.ckpt
+latent_diffusion.egg-info
